@@ -10,28 +10,23 @@ const baseConfig = {
 
 const testConnection = {
     ...baseConfig,
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "admin",
-    database: "teste_test",
+    type: process.env.TEST_DB_DRIVE || "postgres",
+    host: process.env.TEST_DB_HOST || "localhost",
+    port: process.env.TEST_DB_PORT || 5432,
+    username: process.env.TEST_DB_USERNAME || "postgres",
+    password: process.env.TEST_DB_PASSWORD || "admin",
+    database: process.env.TEST_DB_NAME || "postgres"
 }
 
 
 const prodConnection = {
     ...baseConfig,
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "admin",
-    database: "teste",
+    type: process.env.DB_DRIVE || "postgres",
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 5432,
+    username: process.env.DB_USERNAME || "postgres",
+    password: process.env.DB_PASSWORD || "admin",
+    database: process.env.DB_NAME || "postgres"
 }
-
-
-// console.log(process.env.NODE_ENV === 'test' ? testConnection : prodConnection);
-
-
 
 module.exports = process.env.NODE_ENV === 'test' ? testConnection : prodConnection
