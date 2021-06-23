@@ -131,11 +131,9 @@ class GroupServices {
             throw new Error("invite_url must be present");
         }
 
-        // if (!validUrl) {
-        //     throw new Error("invite_url must be present");
-        // }
-
-        
+        if (!validUrl.isWebUri(invite_url)) {
+            throw new Error("invite_url must have be a valid URL");
+        }
 
         if (!description) {
             throw new Error("description must be present");

@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/express": "^4.17.12",
     "@types/jest": "^26.0.23",
+    "@types/valid-url": "^1.0.3",
     "jest": "^27.0.5",
     "sqlite3": "^5.0.2",
     "ts-jest": "^27.0.3",
