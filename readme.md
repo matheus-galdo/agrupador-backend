@@ -1,8 +1,10 @@
-# NLW Valoriza
+# API Agrupador
 
-## Regras
+## Instalação
 
-[ ] - Cadastro de usuário
- - Não é permitido cadastrar mais de um usuário com o mesmo e-mail
- - Não é permitido cadastrar usuário sem e-mail
+` git clone https://github.com/galdo0139/grupos-backend.git`  
+
+- Instale as dependências do projeto
+    - ` npm install ` ou ` yarn install `
+- Configure o arquivo .env com base nos itens presentes no .env.example
  
