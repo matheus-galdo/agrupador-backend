@@ -2,9 +2,15 @@ import express, { Application } from 'express'
 import "reflect-metadata"
 import '../database'
 import { routes } from '../routes'
+import cors from 'cors'
+
+/**
+ * Registre todas as middlewares da aplicação aqui
+*/
 
 const middlewares = [
     express.json,
+    cors
 ]
 
 function attachMiddlewares(app: Application, middlewares: Array<any>): express.Application {

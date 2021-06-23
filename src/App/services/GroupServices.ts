@@ -132,7 +132,7 @@ class GroupServices {
         }
 
         if (!validUrl.isWebUri(invite_url)) {
-            throw new Error("invite_url must have be a valid URL");
+            throw new Error("invite_url must be a valid URL");
         }
 
         if (!description) {
