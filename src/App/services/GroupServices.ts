@@ -41,7 +41,7 @@ class GroupServices {
         const groupAlreadyExists = await groupRepository.findOne({ name })
 
         if (groupAlreadyExists) {
-            throw new Error("group Already Exists");
+            throw new Error(`O grupo ${name} já existe. Crie um grupo com outro nome`);
         }
 
         const group = groupRepository.create({ name, latitude, longitude, invite_url, description })
@@ -75,16 +75,16 @@ class GroupServices {
 
 
         if (groupAlreadyExists && storedGroup.id !== groupAlreadyExists.id) {
-            throw new Error("group Already Exists");
+            throw new Error(`O grupo ${name} já existe. Crie um grupo com outro nome`);
         }
 
         try {
 
             const result = await groupRepository.update(id, { name, latitude, longitude, invite_url, description })
 
-            if (result.affected === 1) return { message: `group ${id} sucessfully updated` }
+            if (result.affected === 1) return { message: `Grupo ${id} atualizado com sucesso` }
 
-            throw new Error(`Error updating group ${id}`);
+            throw new Error(`Erro ao atualizar o grupo ${id}`);
 
         } catch (error) {
             throw error
@@ -99,15 +99,13 @@ class GroupServices {
 
             const findedGroup = await groupRepository.findOne(id)
 
-            if (!findedGroup) throw new Error(`Group ${id} not found`);
+            if (!findedGroup) throw new Error(`Grupo ${id} não encontrado`);
 
             let result = await groupRepository.delete(id)
 
-            if (result.affected === 1) return { message: `group ${id} sucessfully deleted` }
+            if (result.affected === 1) return { message: `Grupo ${findedGroup.name} excluído` }
 
-            console.log();
-
-            throw new Error(`Error deleting group ${id}`);
+            throw new Error(`Erro ao excluir o grupo ${id}`);
 
         } catch (error) {
             throw error
@@ -116,29 +114,38 @@ class GroupServices {
 
     validateGroupData({ name, latitude, longitude, invite_url, description }) {
         if (!name) {
-            throw new Error("name must be present");
+            throw new Error("o campo nome deve estar presente");
         }
 
         if (!latitude) {
-            throw new Error("latitude must be present");
+            throw new Error("o latitude nome deve estar presente");
         }
 
         if (!longitude) {
-            throw new Error("longitude must be present");
+            throw new Error("o campo longitude deve estar presente");
         }
 
         if (!invite_url) {
-            throw new Error("invite_url must be present");
+            throw new Error("o campo link do convite deve estar presente");
         }
 
         if (!validUrl.isWebUri(invite_url)) {
-            throw new Error("invite_url must be a valid URL");
+            throw new Error("o campo link do convite deve ser um URL válido");
+        }
+
+        if (!this.isWhatsappUri(invite_url)) {
+            throw new Error("o campo link do convite deve ser um link de um grupo do whatsapp válido");
         }
 
         if (!description) {
-            throw new Error("description must be present");
+            throw new Error("o campo descrição deve estar presente");
         }
     }
+
+    isWhatsappUri(url: string) {
+        return validUrl.isWebUri(url) && (url.search(/http(s)?:\/\/chat.whatsapp.com\/[A-z1-9]+/) >= 0)
+    }
+
 
 }
 
