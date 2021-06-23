@@ -12,6 +12,7 @@ export class CreateGroups1624394544745 implements MigrationInterface {
                     { name: 'latitude', type: 'float' },
                     { name: 'longitude', type: 'float' },
                     { name: 'invite_url', type: 'text' },
+                    { name: 'description', type: 'text', isNullable: true},
                     { name: 'created_at', type: 'timestamp', default: "now()" },
                     { name: 'updated_at', type: 'timestamp', default: "now()" }
                 ]
