@@ -38,7 +38,7 @@ class GroupServices {
         }
 
         const groupRepository = getCustomRepository(GroupRepositories)
-
+        
         const groups = await groupRepository.createQueryBuilder('groups')
             .where(
                 `(groups.latitude between :latitude_min and :latitude_max) and (groups.longitude between :longitude_min and :longitude_max)`,
@@ -55,16 +55,28 @@ class GroupServices {
         const groupRepository = getCustomRepository(GroupRepositories)
 
         const groupAlreadyExists = await groupRepository.findOne({ name })
-
+        
         if (groupAlreadyExists) {
             throw new Error(`O grupo ${name} já existe. Crie um grupo com outro nome`);
         }
 
         const group = groupRepository.create({ name, latitude, longitude, invite_url, description })
 
-        await groupRepository.save(group)
+        try {
+            return await groupRepository.save(group)
+        } catch (error) {
+            console.log('error on creating group', error);
+            throw new Error(`Ocorreu um erro ao criar um grupo`);
+        }
+        
+        console.log('error on creating group', name);
 
-        return group;
+        // groupRepository.save(group).then(groupIn => {            
+        //     return groupIn;
+        // }).catch(err => {
+        //     console.log('error on creating group', err);
+        //     throw new Error(`Ocorreu um erro ao criar um grupo`);
+        // })
     }
 
     async show(id: any): Promise<Group> {

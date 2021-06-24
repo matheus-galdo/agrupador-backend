@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } fro
 @Entity("groups")
 export class Group {
     @PrimaryColumn()
-    readonly id: string;
+    readonly id: Number;
 
     @Column()
     name: string;

@@ -5,8 +5,6 @@ class GroupController {
 
     async index(request: Request, response: Response) {
 
-        // let { latitude, longitude } = request.query
-
         let latitude: number = Number(request.query.latitude)
         let longitude: number = Number(request.query.longitude)
 

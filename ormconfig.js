@@ -15,7 +15,8 @@ const testConnection = {
     port: process.env.TEST_DB_PORT || 5432,
     username: process.env.TEST_DB_USERNAME || "postgres",
     password: process.env.TEST_DB_PASSWORD || "admin",
-    database: process.env.TEST_DB_NAME || "postgres"
+    database: process.env.TEST_DB_NAME || "postgres",
+    // dropSchema: true
 }
 
 
