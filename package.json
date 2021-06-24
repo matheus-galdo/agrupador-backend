@@ -8,15 +8,15 @@
     "serve": "ts-node src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
 
-    "pretest": "set NODE_ENV=test&&yarn typeorm migration:run",
+    "pretest": "set NODE_ENV=test&&npm run typeorm migration:run",
     "test": "NODE_ENV=test jest",
-    "posttest": "set NODE_ENV=test&&yarn typeorm migration:revert",
+    "posttest": "set NODE_ENV=test&&npm run typeorm migration:revert",
 
-    "pretest_windows": "set NODE_ENV=test&&yarn typeorm migration:run",
+    "pretest_windows": "set NODE_ENV=test&&npm run typeorm migration:run",
     "test_windows": "set NODE_ENV=test&&jest",
-    "posttest_windows": "set NODE_ENV=test&&yarn typeorm migration:revert",
+    "posttest_windows": "set NODE_ENV=test&&npm run typeorm migration:revert",
 
-    "revert": "set NODE_ENV=test&&yarn typeorm migration:revert"
+    "revert": "set NODE_ENV=test&&npm run typeorm migration:revert"
   },
   "keywords": [],
   "author": "",

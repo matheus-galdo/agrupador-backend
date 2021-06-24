@@ -95,3 +95,14 @@ ou
 ```
 $ npm run test
 ```
+
+Caso ao executar os testes, um dos testes falhe, é necessário reverter as migrações pelo console. Você pode usar os seguinte comando para isso:
+
+```
+$ yarn revert
+```
+
+ou
+
+```
+$ npm run revert
