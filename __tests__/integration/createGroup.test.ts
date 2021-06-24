@@ -8,7 +8,7 @@ describe('Create group', () => {
     });
 
     afterAll(async () => {
-        // await connection.clear();
+        await connection.clear();
         await connection.close();
     });
 
@@ -38,6 +38,7 @@ describe('Create group', () => {
 
 
         expect(created.message).toBeUndefined()
+        expect(created.id).toBeDefined()
         expect(created.name).toBe(mockData.name)
         expect(created.latitude).toBe(mockData.latitude)
         expect(created.longitude).toBe(mockData.longitude)

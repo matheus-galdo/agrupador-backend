@@ -9,7 +9,7 @@ describe('List existing groups', () => {
     });
 
     afterAll(async () => {
-        // await connection.clear();
+        await connection.clear();
         await connection.close();
     });
 

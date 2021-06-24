@@ -38,7 +38,7 @@ class GroupServices {
         }
 
         const groupRepository = getCustomRepository(GroupRepositories)
-        
+
         const groups = await groupRepository.createQueryBuilder('groups')
             .where(
                 `(groups.latitude between :latitude_min and :latitude_max) and (groups.longitude between :longitude_min and :longitude_max)`,
@@ -55,7 +55,7 @@ class GroupServices {
         const groupRepository = getCustomRepository(GroupRepositories)
 
         const groupAlreadyExists = await groupRepository.findOne({ name })
-        
+
         if (groupAlreadyExists) {
             throw new Error(`O grupo ${name} já existe. Crie um grupo com outro nome`);
         }
@@ -63,20 +63,12 @@ class GroupServices {
         const group = groupRepository.create({ name, latitude, longitude, invite_url, description })
 
         try {
-            return await groupRepository.save(group)
+            await groupRepository.save(group)
+            return await groupRepository.findOne({ name: group.name })
         } catch (error) {
             console.log('error on creating group', error);
             throw new Error(`Ocorreu um erro ao criar um grupo`);
         }
-        
-        console.log('error on creating group', name);
-
-        // groupRepository.save(group).then(groupIn => {            
-        //     return groupIn;
-        // }).catch(err => {
-        //     console.log('error on creating group', err);
-        //     throw new Error(`Ocorreu um erro ao criar um grupo`);
-        // })
     }
 
     async show(id: any): Promise<Group> {
@@ -92,7 +84,7 @@ class GroupServices {
         return group
     }
 
-    async update({ id, name, latitude, longitude, invite_url, description }: UpdateGroupRequestInterface): Promise<{ message: string; }> {
+    async update({ id, name, latitude, longitude, invite_url, description }: UpdateGroupRequestInterface): Promise<any> {
 
         this.validateGroupData({ name, latitude, longitude, invite_url, description })
 
@@ -110,7 +102,10 @@ class GroupServices {
 
             const result = await groupRepository.update(id, { name, latitude, longitude, invite_url, description })
 
-            if (result.affected === 1) return { message: `Grupo ${id} atualizado com sucesso` }
+            if (result.affected === 1) return {
+                message: `Grupo ${id} atualizado com sucesso`, 
+                ...storedGroup, name, latitude, longitude, invite_url, description
+            }
 
             throw new Error(`Erro ao atualizar o grupo ${id}`);
 

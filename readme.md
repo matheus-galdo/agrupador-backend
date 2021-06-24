@@ -17,7 +17,7 @@ ou
 $ yarn install
 ```
 
----
+
 
 ## Configuração de bancos de dados
 
@@ -25,7 +25,7 @@ Crie dois bancos de dados em seu ambiente, um será usado em produção e o outr
 
 Certifique-se de criar o banco de dados de teste no mesmo host do banco de produção, para que os testes tenham o mesmo resultado que a aplicação. 
 
----
+
 
 ## Configuração do .env
   
@@ -35,7 +35,7 @@ Edite o arquivo .env para configurar suas conexões de bancos de dados. Certifiq
 
 O banco de dados padrão da aplicação é o postgree, caso queira usar outro banco será necessário instalar o pacote com o driver do banco desejado.
 
----
+
 
 ## Migrando banco de dados
 
