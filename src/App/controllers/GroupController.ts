@@ -5,9 +5,14 @@ class GroupController {
 
     async index(request: Request, response: Response) {
 
+        // let { latitude, longitude } = request.query
+
+        let latitude: number = Number(request.query.latitude)
+        let longitude: number = Number(request.query.longitude)
+
         const groupService = new GroupServices()
 
-        let responseData = await groupService.index()
+        let responseData = await groupService.index({ latitude, longitude })
             .then(res => responseData = response.json(res))
             .catch(err => responseData = response.status(400).json({ message: err.message }))
 
@@ -42,7 +47,7 @@ class GroupController {
     }
 
     async update(request: Request, response: Response) {
-        
+
         const { id } = request.params
         const { name, latitude, longitude, invite_url, description } = request.body
 

@@ -3,6 +3,13 @@ import { Group } from "../models/Group";
 import GroupRepositories from "../repositories/GroupRepositories";
 import validUrl from 'valid-url'
 
+
+interface GroupIndexRequestInterface {
+    latitude: number;
+    longitude: number;
+}
+
+
 interface GroupRequestInterface {
     name: string;
     latitude: number;
@@ -24,10 +31,19 @@ interface UpdateGroupRequestInterface {
 
 class GroupServices {
 
-    async index(): Promise<Group[]> {
+    async index({ latitude, longitude }: GroupIndexRequestInterface): Promise<Group[]> {
+
+        if (!latitude || !longitude) {
+            throw new Error("É obrigatórido enviar coordenadas para consultar os grupos próximos de você");
+        }
+
         const groupRepository = getCustomRepository(GroupRepositories)
 
-        const groups = await groupRepository.find()
+        const groups = await groupRepository.createQueryBuilder('groups')
+            .where(
+                `(groups.latitude between :latitude_min and :latitude_max) and (groups.longitude between :longitude_min and :longitude_max)`,
+                { latitude_min: latitude - 0.05, latitude_max: latitude + 0.05, longitude_min: longitude - 0.06, longitude_max: longitude + 0.06 })
+            .orderBy('id').getMany()
 
         return groups
     }
