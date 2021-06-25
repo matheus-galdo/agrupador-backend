@@ -37,6 +37,13 @@ class GroupServices {
             throw new Error("É obrigatórido enviar coordenadas para consultar os grupos próximos de você");
         }
 
+        if (!this.validLatitude(latitude)) {
+            throw new Error("A latitude deve ser um número válido");
+        }
+
+        if (!this.validLongitude(longitude)) {
+            throw new Error("A longitude deve ser um número válido");
+        }
         const groupRepository = getCustomRepository(GroupRepositories)
 
         const groups = await groupRepository.createQueryBuilder('groups')
@@ -103,7 +110,7 @@ class GroupServices {
             const result = await groupRepository.update(id, { name, latitude, longitude, invite_url, description })
 
             if (result.affected === 1) return {
-                message: `Grupo ${id} atualizado com sucesso`, 
+                message: `Grupo ${id} atualizado com sucesso`,
                 ...storedGroup, name, latitude, longitude, invite_url, description
             }
 
@@ -137,27 +144,35 @@ class GroupServices {
 
     validateGroupData({ name, latitude, longitude, invite_url, description }) {
         if (!name) {
-            throw new Error("o campo nome deve estar presente");
+            throw new Error("O campo nome deve estar presente");
         }
 
         if (!latitude) {
-            throw new Error("o latitude nome deve estar presente");
+            throw new Error("O campo latitude deve estar presente");
         }
 
         if (!longitude) {
-            throw new Error("o campo longitude deve estar presente");
+            throw new Error("O campo longitude deve estar presente");
+        }
+
+        if (!this.validLatitude(latitude)) {
+            throw new Error("A latitude deve ser um número válido");
+        }
+
+        if (!this.validLongitude(longitude)) {
+            throw new Error("A longitude deve ser um número válido");
         }
 
         if (!invite_url) {
-            throw new Error("o campo link do convite deve estar presente");
+            throw new Error("O campo link do convite deve estar presente");
         }
 
         if (!validUrl.isWebUri(invite_url)) {
-            throw new Error("o campo link do convite deve ser um URL válido");
+            throw new Error("O campo link do convite deve ser um URL válido");
         }
 
         if (!this.isWhatsappUri(invite_url)) {
-            throw new Error("o campo link do convite deve ser um link de um grupo do whatsapp válido");
+            throw new Error("O campo link do convite deve ser um link de um grupo do whatsapp válido");
         }
 
         if (!description) {
@@ -169,6 +184,15 @@ class GroupServices {
         return validUrl.isWebUri(url) && (url.search(/http(s)?:\/\/chat.whatsapp.com\/[A-z1-9]+/) >= 0)
     }
 
+
+
+    validLongitude(lng: number) {
+        return !isNaN(lng) && (lng >= -180 && lng <= 180)
+    }
+
+    validLatitude(lat: number) {
+        return !isNaN(lat) && (lat >= -90 && lat <= 90)
+    }
 
 }
 
