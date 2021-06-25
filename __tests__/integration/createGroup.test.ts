@@ -70,6 +70,28 @@ describe('Create group', () => {
     })
 
 
+    it("should fail on incorrect coords value", async () => {
+        const createGroupService = new GroupServices
+
+        const mockData = {
+            name: "Incorrect coords",
+            latitude: 200,
+            longitude: -500.569,
+            description: "teste",
+            invite_url: "https://chat.whatsapp.com/IjRxEDoaSXcF1lvODmnjyS"
+        }
+
+
+        let group: any = { name: null, latitude: null, longitude: null, invite_url: null }
+
+        await createGroupService.create(mockData)
+            .then(res => { group = res })
+            .catch(err => { group = { message: err.message } })
+
+        expect(group.message).toBeDefined()
+    })
+
+
     it("should fail on creating duplicated group", async () => {
         const createGroupService = new GroupServices
 
