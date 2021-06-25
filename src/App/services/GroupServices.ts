@@ -31,6 +31,11 @@ interface UpdateGroupRequestInterface {
 
 class GroupServices {
 
+    /**
+     * Return a list of groups nearby the giver coordinates
+     * @param GroupIndexRequestInterface 
+     * @returns Group[]
+     */
     async index({ latitude, longitude }: GroupIndexRequestInterface): Promise<Group[]> {
 
         if (!latitude || !longitude) {
@@ -55,6 +60,11 @@ class GroupServices {
         return groups
     }
 
+    /**
+     * Create a new group
+     * @param GroupRequestInterface 
+     * @returns Group
+     */
     async create({ name, latitude, longitude, invite_url, description }: GroupRequestInterface): Promise<Group> {
 
         this.validateGroupData({ name, latitude, longitude, invite_url, description })
@@ -78,6 +88,11 @@ class GroupServices {
         }
     }
 
+    /**
+     * Return the especified group
+     * @param id 
+     * @returns Group
+     */
     async show(id: any): Promise<Group> {
 
         const groupRepository = getCustomRepository(GroupRepositories)
@@ -91,6 +106,11 @@ class GroupServices {
         return group
     }
 
+    /**
+     * Update the especified group and return its updated data
+     * @param UpdateGroupRequestInterface 
+     * @returns Group
+     */
     async update({ id, name, latitude, longitude, invite_url, description }: UpdateGroupRequestInterface): Promise<any> {
 
         this.validateGroupData({ name, latitude, longitude, invite_url, description })
@@ -121,6 +141,11 @@ class GroupServices {
         }
     }
 
+    /**
+     * Delete a given group
+     * @param id 
+     * @returns object {message}
+     */
     async delete(id: any): Promise<{ message: string; }> {
 
         const groupRepository = getCustomRepository(GroupRepositories)
@@ -142,7 +167,11 @@ class GroupServices {
         }
     }
 
-    validateGroupData({ name, latitude, longitude, invite_url, description }) {
+    /**
+     * Check and validate all input fields
+     * @param GroupRequestInterface
+     */
+    protected validateGroupData({ name, latitude, longitude, invite_url, description }) {
         if (!name) {
             throw new Error("O campo nome deve estar presente");
         }
@@ -180,17 +209,30 @@ class GroupServices {
         }
     }
 
-    isWhatsappUri(url: string) {
+    /**
+     * Check if a string is a valid whastapp group URL
+     * @param url 
+     * @returns boolean
+     */
+    protected isWhatsappUri(url: string) {
         return validUrl.isWebUri(url) && (url.search(/http(s)?:\/\/chat.whatsapp.com\/[A-z1-9]+/) >= 0)
     }
 
-
-
-    validLongitude(lng: number) {
+    /**
+     * Check if longitude is a valid value
+     * @param lng 
+     * @returns boolean
+     */
+    protected validLongitude(lng: number) {
         return !isNaN(lng) && (lng >= -180 && lng <= 180)
     }
 
-    validLatitude(lat: number) {
+    /**
+     * Check if latitude is a valid value
+     * @param lng 
+     * @returns boolean
+     */
+    protected validLatitude(lat: number) {
         return !isNaN(lat) && (lat >= -90 && lat <= 90)
     }
 
