@@ -67,7 +67,7 @@ ou
 $ npm run dev
 ```
 
-O servidor será iniciado na porta definida no arquivo .env, se nenhuma porta foi definida ele será executado na porta 5000.
+O servidor será iniciado na porta definida no arquivo .env, se nenhuma porta foi definida ele será iniciado na porta 5000.
 
 ## Executando os testes
 
@@ -96,7 +96,7 @@ ou
 $ npm run test
 ```
 
-Caso ao executar os testes, um dos testes falhe, é necessário reverter as migrações pelo console. Você pode usar os seguinte comando para isso:
+Caso durante a execução dos testes, um dos testes falhe, é necessário limpar o banco de dados revertendo as migrações.. Você pode fazer isso pelo console usando os seguintes comandos para isso:
 
 ```
 $ yarn revert
